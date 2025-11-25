@@ -78,4 +78,4 @@ Validation of the SOAR logic successfully parsing the Wazuh JSON payload.
 * **Pipeline Integrity:** Diagnosed and resolved network port conflicts (Docker vs Wazuh) to ensure reliable log shipping.
 
 ---
-*Project created by [Your Name]*
+*Project created by [Amith A]*
