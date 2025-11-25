@@ -36,3 +36,45 @@ I executed a "Living off the Land" attack using legitimate Windows binaries to d
 ```powershell
 Invoke-AtomicTest T1003.001 -TestNumbers 2
 # Payload: rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump <lsass_pid> dump.dmp full
+
+---
+
+## 🛡️ Detection & Analysis (Blue Team)
+The SIEM successfully correlated the PowerShell execution with the malicious command line arguments.
+
+### 📸 Evidence of Detection
+**1. Dashboard Overview:**
+High-level view of the security posture showing the spike in Critical alerts.
+![Dashboard](screenshots/1-dashboard-overview.png)
+
+**2. Forensic Analysis:**
+Deep-dive into the alert showing the exact malicious command captured by the Wazuh agent.
+![Forensics](screenshots/3-execution-forensics.png)
+
+**3. Critical Payload Detection:**
+Detection of the dump file being dropped in the temp directory (Level 15 Alert).
+![Critical Alert](screenshots/2-critical-alert.png)
+
+---
+
+## 🤖 Automated Response (SOAR)
+To reduce alert fatigue and accelerate incident response, I integrated **Shuffle SOAR** to handle high-severity alerts automatically.
+
+### 🔗 Integration Logic
+* **Trigger:** Wazuh Manager detects a Critical Alert (Level 12+).
+* **Action:** A custom Python integration script forwards the alert payload to a Shuffle Webhook.
+* **Workflow:** Shuffle parses the JSON threat details (Rule ID, File Path) and prepares notification templates.
+
+### 📸 Proof of Automation
+Validation of the SOAR logic successfully parsing the Wazuh JSON payload.
+![Shuffle Execution](screenshots/4-shuffle-logic.png)
+
+---
+
+## 🧠 Lessons Learned & Troubleshooting
+* **Sysmon Tuning:** Standard configurations often filter out LSASS access to save performance. I learned to manually tune XML configs to balance visibility vs. noise.
+* **Decoder Logic:** Overcame challenges with Wazuh decoders parsing nested JSON fields by implementing robust regex-based detection rules.
+* **Pipeline Integrity:** Diagnosed and resolved network port conflicts (Docker vs Wazuh) to ensure reliable log shipping.
+
+---
+*Project created by [Your Name]*
